@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:560694377098:android:ffe6bdac8f51f3e2",
+        "android_client_info": {
+          "package_name": "am.tk.mytestapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560694377098-jhr77g13fm8hbf8e8te90pispvfnpg3b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "am.tk.mytestapp",
+            "certificate_hash": "c411d8cdee47b6cb31140fea0841015f95fedbcb"
+          }
+        },
+        {
+          "client_id": "560694377098-1q1o38dmpjf43t6uf8b9ribbcfnfikba.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4AGYp_AyLPpz7Dur6woq1BEU_l0G5Wf8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560694377098-1q1o38dmpjf43t6uf8b9ribbcfnfikba.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:560694377098:android:5dadfcc0c3609038",
         "android_client_info": {
           "package_name": "am.tk.testapp"

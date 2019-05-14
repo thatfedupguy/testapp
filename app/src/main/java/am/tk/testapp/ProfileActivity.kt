@@ -1,68 +1,117 @@
 package am.tk.testapp
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import am.tk.testapp.Visitors as Visitors1
 
 class ProfileActivity : AppCompatActivity() {
     private val TAG = "ProfileActivity"
     private var mDatabaseReference : DatabaseReference?= null
+    private var mAuth : FirebaseAuth ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
-        val intent = intent
-        var number : String = intent.getStringExtra("mobile")
-        mDatabaseReference = FirebaseDatabase.getInstance().getReference()
-        Log.d(TAG, "Databasse :")
-        mDatabaseReference!!.addChildEventListener(object : ChildEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-                val value = p0.getValue(String::class.java)
-                if(value.equals(number)){
-                    mDatabaseReference!!.child(number).child("visit_count").addChildEventListener(object :
-                        ChildEventListener {
-                        override fun onCancelled(p0: DatabaseError) {
-
-                        }
-
-                        override fun onChildMoved(p0: DataSnapshot, p1: String?) {
-
-                        }
-
-                        override fun onChildChanged(p0: DataSnapshot, p1: String?) {
-                            var count_value = p0.getValue(String::class.java) as Int + 1
-                            mDatabaseReference!!.child(number).child("visit_count").setValue(count_value)
-                        }
-
-                        override fun onChildAdded(p0: DataSnapshot, p1: String?) {
-                            //To change body of created functions use File | Settings | File Templates.
-                        }
-
-                        override fun onChildRemoved(p0: DataSnapshot) {
-                            //To change body of created functions use File | Settings | File Templates.
-                        }
-                    })
-
+        mAuth = FirebaseAuth.getInstance()
+        var number : String? = mAuth!!.currentUser!!.phoneNumber
+        var visit_count : Int ?= null
+        mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+        var kVisitor = am.tk.testapp.Visitors(number, 1)
+        if (number != null) {
+            mDatabaseReference!!.child(number).setValue(kVisitor)
+        }
+        if (number != null ) {
+            mDatabaseReference!!.addChildEventListener( object : ChildEventListener{
+                override fun onCancelled(p0: DatabaseError) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                 }
 
-            }
+                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
 
-            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                    if(p0.getValue(String::class.java)!!.equals(number)){
+                        mDatabaseReference!!.child(number).child("visit_count").addChildEventListener(object : ChildEventListener{
+                            override fun onCancelled(p0: DatabaseError) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
 
-            }
+                            override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
 
-            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                            override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                                visit_count = p0.getValue(Int::class.java) as Int + 1
+                                var kVisitor = am.tk.testapp.Visitors(number, visit_count!!)
+                                mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                                if (number != null) {
+                                    mDatabaseReference!!.child(number).setValue(kVisitor)
+                                }
 
-            }
+                            }
 
-            override fun onChildRemoved(p0: DataSnapshot) {
+                            override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                                visit_count = p0.getValue(Int::class.java) as Int + 1
+                                var kVisitor = am.tk.testapp.Visitors(number, visit_count!!)
+                                mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                                if (number != null) {
+                                    mDatabaseReference!!.child(number).setValue(kVisitor)
+                                }
+                            }
 
-            }
-        })
+                            override fun onChildRemoved(p0: DataSnapshot) {
+                                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                            }
+                        })
+
+                    }
+                }
+
+                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                    if(p0.getValue(String::class.java)!!.equals(number)) {
+                        mDatabaseReference!!.child(number).child("visit_count")
+                            .addChildEventListener(object : ChildEventListener {
+                                override fun onCancelled(p0: DatabaseError) {
+                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                }
+
+                                override fun onChildMoved(p0: DataSnapshot, p1: String?) {
+                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                }
+
+                                override fun onChildChanged(p0: DataSnapshot, p1: String?) {
+                                    visit_count = p0.getValue(Int::class.java) as Int + 1
+                                    var kVisitor = am.tk.testapp.Visitors(number, visit_count!!)
+                                    mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                                    if (number != null) {
+                                        mDatabaseReference!!.child(number).setValue(kVisitor)
+                                    }
+
+                                }
+
+                                override fun onChildAdded(p0: DataSnapshot, p1: String?) {
+                                    visit_count = p0.getValue(Int::class.java) as Int + 1
+                                    var kVisitor = am.tk.testapp.Visitors(number, visit_count!!)
+                                    mDatabaseReference = FirebaseDatabase.getInstance().getReference();
+                                    if (number != null) {
+                                        mDatabaseReference!!.child(number).setValue(kVisitor)
+                                    }
+                                }
+
+                                override fun onChildRemoved(p0: DataSnapshot) {
+                                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                                }
+                            })
+                    }
+                }
+
+                override fun onChildRemoved(p0: DataSnapshot) {
+                    TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                }
+            })
+        }
+
     }
 }

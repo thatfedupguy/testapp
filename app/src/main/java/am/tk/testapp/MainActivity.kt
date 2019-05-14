@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
                 return@OnClickListener
             }
 
-            val intent = Intent(this@MainActivity, VerifyActivity::class.java)
+            val intent = Intent(this@MainActivity, VerificationActivity::class.java)
             intent.putExtra("mobile", mobile)
             startActivity(intent)
         })
